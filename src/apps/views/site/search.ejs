@@ -1,0 +1,94 @@
+<%- include('layout/head.ejs',{title:'Sản phẩm'}) %>
+<%- include('layout/header.ejs') %>
+<%- include('layout/menu.ejs') %>
+
+<div class="page-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="page-breadcrumb">
+          <ol class="breadcrumb">
+            <li><a href="/">Trang chủ</a></li>
+            <li>Sản phẩm</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /. header-section-->
+<!-- product-list -->
+<div class="content">
+  <div class="container">
+    <div class="row">
+      <%- include('layout/sidebar.ejs') %>
+      <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb10 alignright">
+            <form>
+              <div class="select-option form-group">
+                <select name="select" class="form-control" placeholder="Sắp xếp theo">
+                  <option value="" default>Sắp xếp theo</option>
+                  <option value="">Bán Chạy</option>
+                  <option value="">Giá Thấp</option>
+                  <option value="">Giá Cao</option>
+                </select>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="ml30">
+            <h1> Tìm kiếm theo từ khóa : <%= keyword %></h1>
+          </div>
+          <!-- product -->
+          <% for(item of products){ %>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30">
+            <a href="product-single.html">
+              <div class="product-block">
+                <div class="product-img"><a href="/productsingle-<%= item.slug %>.<%= item._id %>"><img src="/public/images/<%=item.thumbnail%>" style="height: 150px; width: 150px;" alt=""></a></div>
+                <div class="product-content">
+                  <h5><a href="/productsingle-<%= item.slug %>.<%= item._id %>" class="product-title"><%=item.name%></a></h5>
+                  <div class="product-meta"><a href="/productsingle-<%= item.slug %>.<%= item._id %>" class="product-price"><%= (item.price).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}); %></a>
+
+                  </div>
+                  <div class="shopping-btn">
+                    <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
+                    <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <%}%>
+          <!-- /.product -->
+          <!-- pagigation -->
+          <div class="row">
+            <!-- pagination start -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="st-pagination">
+                    <ul class="pagination">
+                      <% if(hasPrev){ %>
+          <li><a href="/products?page=<%=prev%>" aria-label="previous"><i class="fa fa-angle-left" style="font-size: 16px;"></i></a>
+          </li>
+          <% } %>
+
+          <% for(i of pages){ %>
+          <li class="active"><a href="/products?page=<%=i%>"><%= i %></a></li>
+          <% } %>
+          <% if(hasNext){ %>
+          <li> <a href="/products?page=<%=next%>" aria-label="Next"><i class="fa fa-angle-right" style="font-size: 16px;"></i></li>
+          <% } %>
+          </ul>
+        </div>
+      </div>
+      <!-- pagination close -->
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+</div>
+<!-- /.product-list -->
+<%- include('layout/footer.ejs') %>

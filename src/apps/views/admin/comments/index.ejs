@@ -1,0 +1,124 @@
+<%- include('../layout/head.ejs',{title:"Quản lý bình luận"}) %>
+<%- include('../layout/header.ejs',{account:accountLogin}) %>
+<%- include('../layout/sidebar.ejs') %>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+
+  <div class="row">
+    <ol class="breadcrumb">
+      <li>
+        <a href="/admin/dashboard"><svg class="glyph stroked home">
+            <use xlink:href="#stroked-home"></use>
+          </svg></a>
+      </li>
+      <li class="active">Quản lý bình luận</li>
+    </ol>
+  </div>
+  <!--/.row-->
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Quản lý bình luận</h1>
+    </div>
+  </div>
+  <!--/.row-->
+  <div class="col-md-12" style="margin-bottom: 5px;">
+    <div class="col-md-6" style="float: left;">
+      <form action="/admin/products/search-category" method="post">
+        <div class="col-md-6">
+          <input class="form-control" placeholder="Tìm kiếm" name="search" type="text" value="" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-md">Tìm kiếm</button>
+      </form>
+    </div>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th class="text-center">STT</th>
+        <th class="text-center">Họ và tên</th>
+        <th class="text-center">Email</th>
+        <th class="text-center">Bình luận</th>
+        <th class="text-center">Sản phẩm bình luận</th>
+        <th class="text-center">Thời gian bình luận</th>
+        <th class="text-center">Duyệt</th>
+        <th class="text-center">Chức năng</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% comments.forEach(function(item,i=0){ %>
+      <tr>
+
+        <td class="text-center"><%= i+1 %></td>
+        <td class="text-center"><%= item.fullname %></td>
+        <td class="text-center col-md-2"><%= item.email %></td>
+        <td class="text-center col-md-2"><%= item.body %></td>
+        <td class="text-center col-md-2"> <%= item.pro_id.name %></td>
+        <td class="text-center col-md-1"><%= moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss') %></td>
+        <td class="text-center"><%= item.active %></td>
+        <td class="text-center">
+          <a name="" id="" class="btn btn-warning" href="/admin/comments/edit/<%= item._id %>" role="button">Sửa</a>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modelId">
+            Xóa
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Thông báo</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Bạn chắc chắn xóa?
+                </div>
+                <div class="modal-footer">
+                  <a name="" id="" class="btn btn-danger" href="/admin/comments/del/<%= item._id %>" role="button">Đồng ý</a>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      <% if(hasPrev){ %>
+      <li class="page-item">
+        <a class="page-link" href="/admin/products?page=<%=prev%>" aria-label="Previous">
+          <span>&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <% } %>
+
+      <% for(i of pages){ %>
+      <li class="page-item">
+        <a class="page-link" href="/admin/products?page=<%=i%>">
+          <%= i %>
+        </a>
+      </li>
+      <% } %>
+
+      <% if(hasNext){ %>
+      <li class="page-item">
+        <a class="page-link" href="/admin/products?page=<%=next%>" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+      <% } %>
+    </ul>
+  </nav>
+</div>
+
+<%- include('../layout/footer.ejs') %>

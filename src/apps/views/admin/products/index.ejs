@@ -1,0 +1,204 @@
+<%- include('../layout/head.ejs',{title:"Quản lý sản phẩm"}) %>
+<%- include('../layout/header.ejs') %>
+<%- include('../layout/sidebar.ejs') %>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+
+  <div class="row">
+    <ol class="breadcrumb">
+      <li>
+        <a href="/admin/dashboard"><svg class="glyph stroked home">
+            <use xlink:href="#stroked-home"></use>
+          </svg></a>
+      </li>
+      <li class="active">Quản lý sản phẩm</li>
+    </ol>
+  </div>
+  <!--/.row-->
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Quản lý sản phẩm</h1>
+    </div>
+  </div>
+
+  <!--/.row-->
+  <div class="col-md-12" style="margin-bottom: 5px;">
+    <div class="col-md-6" style="float: left;">
+      <form action="/admin/products/search" method="get">
+        <div class="col-md-6">
+          <input class="form-control" placeholder="Tìm kiếm" name="keyword" type="text" value="" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-md">Tìm kiếm</button>
+      </form>
+    </div>
+    <div class="col-md-2" style="float: right;">
+      <a name="" id="" class="btn btn-success form-control" href="/admin/products/create" role="button">Thêm sản phẩm</a>
+    </div>
+  </div>
+
+
+  <table class="table table-bordered">
+
+    <thead>
+      <tr>
+        <th class="text-center">STT</th>
+        <th class="text-center">Tên sản phẩm</th>
+        <th class="text-center">Giá sản phẩm</th>
+        <th class="text-center">Ảnh sản phẩm</th>
+        <th class="text-center">Trạng thái</th>
+        <th class="text-center">Danh mục</th>
+        <th class="text-center">Chức năng</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+
+  </table>
+
+  <p class="coutpage"></p>
+  <!-- pagnigation -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+
+      </li>
+    </ul>
+  </nav>
+
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    function loadData(page = 1) {
+      $.ajax({
+        type: "GET",
+        url: `/api/admin/products?page=${page}`,
+        dataType: 'JSON',
+        success: function(response) {
+          if (response.status === "Success") {
+            let htmlBody = '';
+            let i = 1;
+            response.data.docs.forEach(item => {
+              htmlBody += `
+                            <tr>
+                                <td  class="text-center">${i}</td>
+                                <td  class="text-center">${item.name}</td>
+                                <td  class="text-center">${(item.price).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</td>
+                                <td  class="text-center"> <img src="/public/images/${item.thumbnail}" style="width: 100px;" alt="? " /></td>
+                                <td class="text-center">
+                                  <span class="label label-${item.is_stock ? 'success' : 'danger' }">
+                                    ${item.is_stock ? 'Còn hàng' : 'Hết hàng'}
+                                  </span>
+                                </td>
+                                <td  class="text-center">${item.cat_id.title}</td>
+                                <td  class="text-center">
+                                  <a name="" id="" class="btn btn-warning" href="/admin/products/edit/${item._id}" role="button">Sửa</a>
+                                  <a class="btn btn-danger deletePro" data-id="${item._id}" data-dismiss="modal">Xóa</a>
+                                  
+                                </td>
+                              </tr>`;
+              i += 1;
+            });
+            $("tbody").html(htmlBody);
+            $('.coutpage').html(`page ${response.filter.page} of ${response.data.pages.totalpage} pages`);
+            let paginationContent = '';
+            if (response.data.pages.hasPrev) {
+              paginationContent +=
+                `
+                  <li class="page-item">
+                    <a class="page-link" href="" data-page="${response.data.pages.prev}"> << </a>
+                  </li>
+                `;
+            }
+            for (const item of response.data.pages.pages) {
+              if (item === response.filter.page) {
+                paginationContent +=
+                  `
+                    <li class="page-item active">
+                      <a class="page-link " href="#" data-page="${item}">${item} <span class="sr-only">(current)</span> </a>
+                    </li>
+                  `;
+              } else {
+                paginationContent +=
+                  `
+                  <li class="page-item">
+                    <a class="page-link " href="#" data-page="${item}">${item}</a>
+                  </li>
+                 `;
+              }
+            }
+            if (response.data.pages.hasNext) {
+              paginationContent += `
+              <li class="page-item">
+                <a class="page-link" href="" data-page="${response.data.pages.next}"> >> </a>
+              </li>
+               `;
+            }
+            $('.pagination').html(paginationContent);
+
+            $('.page-link').click(function(e) {
+              e.preventDefault();
+              const page = $(this).data('page');
+              loadData(page);
+
+            });
+            $('.deletePro').click(function() {
+              const pro_id = $(this).attr('data-id');
+              const currentPage = response.filter.page;
+              swal({
+                  title: "Thông báo xóa",
+                  text: "Bạn chắc chắn xóa",
+                  icon: "warning",
+                  dangerMode: true,
+                  buttons: true,
+                })
+                .then((willDelete) => {
+                  if (willDelete) {
+                    deletePro(pro_id, currentPage);
+                    Toastify({
+                      text: "Xóa thành thành công",
+                      duration: 3000,
+                      destination: "",
+                      newWindow: true,
+                      close: true,
+                      gravity: "top", // `top` or `bottom`
+                      position: "right", // `left`, `center` or `right`
+                      stopOnFocus: true, // Prevents dismissing of toast on hover
+                      style: {
+                        background: "#47d864",
+                      },
+                      onClick: function() {} // Callback after click
+                    }).showToast();
+                  }
+                });
+            })
+          }
+        },
+        error: function(error) {
+          console.error('Error:', error);
+        }
+      });
+    }
+    loadData();
+
+    //ham delete product
+    function deletePro(id, currentPage) {
+      $.ajax({
+        type: "POST",
+        url: `/api/admin/products/del/${id}`,
+        dataType: 'JSON',
+        success: function(response) {
+          loadData(currentPage);
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+
+  });
+</script>
+
+<%- include('../layout/footer.ejs') %>

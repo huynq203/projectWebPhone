@@ -1,0 +1,156 @@
+<%- include('layout/head.ejs',{title:'Trang chủ'}) %>
+<%- include('layout/header.ejs') %>
+<%- include('layout/menu.ejs')%>
+<%- include('layout/slider.ejs') %>
+<%- include('layout/showcase.ejs') %>
+
+<!-- latest products -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="box">
+        <div class="box-head">
+          <h3 class="head-title">Sản phẩm mới nhất</h3>
+        </div>
+
+        <div class="box-body">
+          <div class="row">
+            <% productnew.forEach(function (item) {   %>
+            <!-- product -->
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="product-block">
+                <div class="product-img">
+                  <a href="/productsingle-<%= item.slug %>.<%= item._id %>"><img src="/public/images/<%= item.thumbnail %>" style="width: 1000px;" alt="" /></a>
+                </div>
+                <div class="product-content">
+                  <h5 class="col-md-12">
+                    <a href="/productsingle-<%= item.slug %>.<%= item._id %>" class="product-title"><%= item.name %>
+
+                  </h5>
+                  <div class="product-meta">
+                    <a href="/productsingle-<%= item.slug %>.<%= item._id %>" class="product-price"><%= (item.price).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}); %></a>
+                  </div>
+                  <div class="shopping-btn">
+                    <a href="/productsingle-<%= item.slug %>.<%= item._id %>" class="btn btn-cart btn-block btn-xs">Mua</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.latest products -->
+
+<!-- featured products -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="box">
+        <div class="box-head">
+          <h3 class="head-title">Sản phẩm nổi bật</h3>
+        </div>
+        <div class="box-body">
+          <div class="row">
+            <!-- product -->
+            <% for(item of featured){ %>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="product-block">
+                <div class="product-img">
+                  <a href="/productsingle-<%= item.slug %>.<%= item._id %>"><img src="/public/images/<%= item.thumbnail %>" style="width: 1000px;" alt="" /></a>
+                </div>
+                <div class="product-content">
+                  <h5 class="col-md-12">
+                    <a href="/productsingle-<%= item.slug %>.<%= item._id %>" class="product-title"><%= item.name%></a>
+                  </h5>
+                  <div class="product-meta">
+                    <a href="/productsingle-<%= item.slug %>.<%= item._id %>" class="product-price"><%= (item.price).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}); %></a>
+
+                  </div>
+                  <div class="shopping-btn">
+                    <a href="/productsingle-<%= item.slug %>.<%= item._id %>" class="btn btn-cart btn-block btn-xs">Mua</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <!-- /.product -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.featured products -->
+<!-- cta -->
+<!-- /.cta -->
+<!-- features -->
+<div class="bg-default pdt40 pdb40">
+  <div class="container">
+    <div class="row">
+      <!-- features -->
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="feature-left">
+          <div class="feature-outline-icon">
+            <i class="fa fa-credit-card"></i>
+          </div>
+          <div class="feature-content">
+            <h3 class="text-white">Thanh toán an toàn</h3>
+            <p>
+              Mang đến dịch vụ trải nghiệm thoải mái nhất, an toàn, tiện dụng,
+              Mobistore!
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- features -->
+      <!-- features -->
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="feature-left">
+          <div class="feature-outline-icon">
+            <i class="fa fa-users"></i>
+          </div>
+          <div class="feature-content">
+            <h3 class="text-white">Phản hồi 24/7</h3>
+            <p>Trợ giúp liên lạc, tham khảo , tra cứu 24/7!</p>
+          </div>
+        </div>
+      </div>
+      <!-- features -->
+      <!-- features -->
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="feature-left feature-circle">
+          <div class="feature-outline-icon">
+            <i class="fa fa-rotate-left"></i>
+          </div>
+          <div class="feature-content">
+            <h3 class="text-white">Đổi trả miễn phí</h3>
+            <p>Miễn phí bảo hành đổi trả lên đến 365 ngày!</p>
+          </div>
+        </div>
+      </div>
+      <!-- features -->
+      <!-- features -->
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="feature-left">
+          <div class="feature-outline-icon">
+            <i class="fa fa-dollar"></i>
+          </div>
+          <div class="feature-content">
+            <h3 class="text-white">Giá tốt nhất</h3>
+            <p>Giá thành tốt nhất trong thị trường. Cập nhật sản phẩm 24/7!</p>
+          </div>
+        </div>
+      </div>
+      <!-- features -->
+    </div>
+  </div>
+</div>
+<!-- /.features -->
+
+<%- include('layout/footer.ejs') %>

@@ -1,0 +1,61 @@
+<body>
+  <!-- top-header-->
+  <div class="top-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6 hidden-xs">
+          <p class="top-text">Trang web bán điện thoại thuộc về của Nguyễn Quốc Huy</p>
+        </div>
+        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
+          <ul>
+            <li>0971570582</li>
+            <li>quochuy2011nd@gmail.com</li>
+          </ul>
+        </div>
+      </div>
+      <!-- /.top-header-->
+    </div>
+  </div>
+  <!-- header-section-->
+  <div class="header-wrapper">
+    <div class="container">
+      <div class="row">
+        <!-- logo -->
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
+          <div class="logo">
+            <a href="/"><img src="/public/site/images/logo.png" alt=""> </a>
+          </div>
+        </div>
+        <!-- /.logo -->
+        <!-- search -->
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+          <div class="search-bg">
+            <form action="/search" method="get">
+              <input name="keyword" type="text" class="form-control" placeholder="Tìm kiếm sản phẩm...">
+              <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+          </div>
+        </div>
+        <!-- /.search -->
+        <!-- account -->
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <div class="account-section">
+            <ul>
+              <% if(!accountCustomer){ %>
+              <li><a href="/account" class="title hidden-xs">Tài khoản</a></li>
+              <li class="hidden-xs">|</li>
+              <li><a href="/login" class="title hidden-xs">Đăng nhập</a></li>
+              <% }else{ %>
+              <li><a href="/account" class="title hidden-xs"><%= accountCustomer%></a></li>
+              <li class="hidden-xs">|</li>
+              <li><a href="/logout" class="title hidden-xs">Đăng xuất</a></li>
+              <%} %>
+              <li><a href="/cart" class="title"><i class="fa fa-shopping-cart"></i> <sup class="cart-quantity"><%= totalCart %></sup></a>
+              </li>
+            </ul>
+          </div>
+          <!-- /.account -->
+        </div>
+        <!-- search -->
+      </div>
+    </div>

@@ -1,0 +1,106 @@
+<%- include('layout/head.ejs',{title:'Đăng ký tài khoản'}) %>
+<div class="row">
+  <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+    <div class="login-panel panel panel-default">
+      <div class="panel-heading text-center">Đăng ký tài khoản</div>
+      <div class="panel-body">
+        <% if(data && data.error){ %>
+        <div class="alert alert-danger text-center"><%= data.error %></div>
+        <% } %>
+        <form role="form" id="formRegister" method="post">
+          <fieldset>
+            <div class="form-group">
+              <input class="form-control" placeholder="Tài khoản" id="account" name="account" type="text" autofocus="" />
+            </div>
+
+            <div class="form-group">
+              <input class="form-control" placeholder="Mật khẩu" id="password" name="password" type="password" value="" />
+            </div>
+            <div class="form-group">
+              <input class="form-control" placeholder="Nhập lại mật khẩu" id="repassword" name="repassword" type="password" value="" />
+            </div>
+            <div class="form-group">
+              <input class="form-control" placeholder="Họ tên" id="fullname" name="fullname" type="text" value="" />
+            </div>
+            <div class="form-group">
+              <input class="form-control" placeholder="Email" id="email" name="email" type="email" autofocus="" />
+            </div>
+            <div class="form-group">
+              <input class="form-control" placeholder="Số điện thoại" id="phone" name="phone" type="text" value="" />
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Đăng ký</button>
+              <a name="" id="" class="btn btn-danger" href="/admin/login" role="button">Quay lại</a>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- /.col-->
+</div>
+<!-- /.row -->
+
+<script>
+  $(document).ready(function() {
+    $('#formRegister').validate({
+      rules: {
+        account: {
+          required: true,
+          minlength: 5
+        },
+        password: {
+          required: true,
+          minlength: 5
+        },
+        repassword: {
+          required: true,
+          minlength: 5,
+          equalTo: "#password"
+        },
+        email: {
+          required: true,
+          email: true
+        },
+        fullname: {
+          required: true
+        },
+        phone: {
+          required: true,
+          minlength: 10,
+          maxlength: 10
+        }
+      },
+      messages: {
+        account: {
+          required: 'Yêu cầu nhập tài khoản',
+          minlength: 'Tài khoản phải có ít nhất 5 ký tự'
+        },
+        password: {
+          required: 'Yêu cầu nhập mật khẩu',
+          minlength: 'Mật khẩu phải có ít nhất 5 ký tự'
+        },
+        repassword: {
+          required: 'Yêu cầu nhập mật khẩu',
+          minlength: 'Mật khẩu phải có ít nhất 5 ký tự',
+          equalTo: 'Mật khẩu nhập không trùng khớp'
+        },
+        email: {
+          required: 'Yêu cầu nhập email',
+          email: 'Yêu cầu nhập đúng định dạng email'
+        },
+        fullname: {
+          required: 'Yêu cầu nhập họ tên'
+        },
+        phone: {
+          required: 'Yêu cầu nhập số điện thoại',
+          minlength: 'Số điện thoại không đúng định dạng',
+          maxlength: 'Số điện thoại không đúng định dạng'
+        }
+      }
+    });
+  });
+</script>
+</body>
+
+</html>

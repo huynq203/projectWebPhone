@@ -1,0 +1,190 @@
+<%- include('layout/head.ejs',{title:'Trang chủ'}) %>
+<%- include('layout/header.ejs') %>
+<%- include('layout/menu.ejs')%>
+<!-- page-header -->
+<div class="page-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div class="page-breadcrumb">
+          <ol class="breadcrumb">
+            <li><a href="#">Trang chủ</a></li>
+            <li>Giỏ hàng</li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.page-header-->
+<!-- cart-section -->
+
+<div class="container">
+  <div class="cart-content mt30 mb30">
+    <div class="title-header mb20">
+      <h2 class="title">Giỏ Hàng</h2>
+      <p><span class="text-blue"><%= totalCart %></span> sản phẩm trong giỏ hàng của bạn</p>
+    </div>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th></th>
+          <th>Sản phẩm</th>
+          <th scope="col">Đơn giá</th>
+          <th scope="col">Số lượng</th>
+          <th scope="col">Thành tiền</th>
+          <th scope="col"></th>
+
+        </tr>
+      </thead>
+      <form action="/update-cart" method="post">
+        <tbody>
+          <% for(item of listCart){ %>
+          <tr>
+            <td>
+              <div class="item-center pdl10"><input type="checkbox" class="checkboxStyle"></div>
+            </td>
+            <td>
+              <div class="product-title item-center">
+                <img src="/public/images/<%= item.thumbnail %>" alt="">
+                <div>
+                  <p><%= item.name %></p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="item-center"><%= 
+              (item.price).toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+                %></div>
+            </td>
+            <td>
+              <div class="item-center">
+                <div class="quantity">
+                  <input type="number" max="10" min="1" name="products[<%= item.id %>][qty]" value="<%= item.qty %>">
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="item-center text-red"><%= (item.price*item.qty).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}); %></div>
+            </td>
+            <td>
+              <a name="" id="" class="btn btn-danger btn-xs mt30" href="/delete-cart-<%= item.id %>" role="button">Xóa</a>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+    </table>
+    <div class="prices-summary">
+      <div class="left-content">
+        <button type="submit" class="btn btn-success mt50">Cập nhật giỏ hàng</button> <br>
+        </form>
+        <a href="/products" class="derection-product text-blue"><i class="fas fa-long-arrow-alt-left"></i> Tiếp tục
+          mua hàng</a>
+      </div>
+      <div class="right-con">
+        <div class="total-receipt">
+          <div class="promotion-code pinside20">
+            <input type="text" class="input-code" placeholder="Nhập mã ưu đãi">
+            <button type="submit" class="submit-code btn-default">Áp dụng</button>
+          </div>
+          <ul class="prices pinside20">
+            <li class="prices-item">
+              <span class="prices-text">Tạm tính</span>
+              <span class="prices-value"><%=(listCart.reduce((total,item)=> total+item.price*item.qty,0)).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}); %> </span>
+            </li>
+            <li class="prices-item">
+              <span class="prices-text">Giảm giá</span>
+              <span class="prices-value">0đ</span>
+            </li>
+          </ul>
+          <div class="prices-total pinside20">
+            <span class="price-text">Tổng cộng</span>
+            <span class="prices-value prices-final text-red"><%= (listCart.reduce((total,item)=> total+item.price*item.qty,0)).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}); %> </span>
+          </div>
+        </div>
+
+        <% if(!accountCustomer){ %>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn-default btn-checkout" data-toggle="modal" data-target="#modelId">
+          Mua hàng
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container-fluid">
+                  Bạn chưa đăng nhập
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-xs" data-dismiss="modal">Đóng</button>
+                <a name="" id="" class="btn btn-primary btn-sm" href="/login" role="button">Đăng nhập ngay</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          $('#exampleModal').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+          });
+        </script>
+        <% }else if(totalCart > 0){ %>
+        <a href="/checkout" class="btn-default btn-checkout">Mua Hàng</a>
+
+        <% }else{ %>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn-default btn-checkout" data-toggle="modal" data-target="#modelId">
+          Mua hàng
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container-fluid">
+                  Bạn chưa chọn sản phẩm
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-xs" data-dismiss="modal">Đóng</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          $('#exampleModal').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+          });
+        </script>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.cart-total -->
+</div>
+
+<!-- /.cart-section -->
+<%- include('layout/footer.ejs') %>

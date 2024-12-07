@@ -1,0 +1,112 @@
+<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  <!-- sidenav-section -->
+  <div id='cssmenu'>
+    <ul>
+      <li class='has-sub'><a href='#'>Hệ điều hành</a>
+        <ul>
+
+          <li>
+            <label>
+              <a name="" id="" class="btn btn-primary" href="#" role="button">Tất cả</a>
+            </label>
+          </li>
+          <li>
+            <label>
+              <a name="" id="" class="btn btn-primary" href="#" role="button">Android</a></label>
+          </li>
+          <li>
+            <label>
+              <a name="" id="" class="btn btn-primary" href="#" role="button">IOS</a></label>
+          </li>
+        </ul>
+      </li>
+      <li class='has-sub'><a href='#'>Hãng sản xuất</a>
+        <ul>
+          <li>
+            <label>
+              <a name="" id="" class="btn btn-primary" href="/products" role="button">Tất cả</a>
+            </label>
+          </li>
+          <% for(category of categories){ %>
+          <li>
+
+            <label>
+              <a name="" id="" class="btn btn-primary" href="/category-<%=category.slug%>.<%= category._id %>" role="button"><%= category.title %></a>
+            </label>
+
+          </li>
+          <% } %>
+
+
+        </ul>
+      </li>
+      <li class='has-sub'><a href='#'>Giá Bán</a>
+        <ul>
+          <li>
+            <label>
+              <a name="" id="" class="btn btn-primary" href="#" role="button">Tất cả</a>
+            </label>
+          </li>
+          <li>
+            <label>
+
+              <a name="" id="" class="btn btn-primary" href="#" role="button">Dưới 2 triệu</a>
+
+            </label>
+          </li>
+          <li><span>
+              <label>
+
+                <a name="" id="" class="btn btn-primary" href="#" role="button">Từ 2 - 5 triệu</a>
+
+              </label>
+          </li>
+          <li>
+            <label>
+              <a name="" id="" class="btn btn-primary" href="#" role="button">Từ 5 - 10 triệu</a>
+            </label>
+          </li>
+
+          <li><span>
+              <label>
+                <a name="" id="" class="btn btn-primary" href="#" role="button">Từ 10 - 15 triệu</a>
+              </label>
+          </li>
+          <li>
+            <label>
+
+              <a name="" id="" class="btn btn-primary" href="#" role="button">Trên 15 triệu</a>
+            </label>
+          </li>
+
+        </ul>
+      </li>
+      <li class='has-sub'><a href='#'>Màn hình</a>
+        <ul>
+          <li>
+            <label>
+              <input type="checkbox">
+              <span class="checkbox-list">Tất cả</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox">
+              <span class="checkbox-list">Dưới 5.0 inch</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox">
+              <span class="checkbox-list">Trên 6.0 inch</span>
+            </label>
+          </li>
+
+        </ul>
+      </li>
+
+
+    </ul>
+  </div>
+  <!-- /.sidenav-section -->
+</div>
